@@ -24,6 +24,14 @@ from deap import base
 from deap import creator
 from deap import tools
 
+import pandas as pd
+bd = pd.read_csv('base.csv')
+
+bd1 = bd.iloc[0:5,0:4]
+bd2 = bd.iloc[5:10,0:4]
+bd3 = bd.iloc[10:15,0:4]
+bd4 = bd.iloc[15:20,0:4]
+
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
 
