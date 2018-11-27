@@ -38,7 +38,7 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 toolbox = base.Toolbox()
 
 def getId():
-    v = randint(1,5)
+    v = randint(1,20)
     return v
 
 # Attribute generator 
@@ -59,7 +59,36 @@ toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 # the goal ('fitness') function to be maximized
 def evalOneMax(individual):
-    print individual
+    dado1 = bd.iloc[individual[0],0:4]
+    dado2 = bd.iloc[individual[1],0:4]
+    dado3 = bd.iloc[individual[2],0:4]
+    dado4 = bd.iloc[individual[3],0:4]
+    dado5 = bd.iloc[individual[4],0:4]
+
+    grau_depen = []
+    grau_depen.append(dado1.loc['Grau de dependencia'])
+    grau_depen.append(dado2.loc['Grau de dependencia'])
+    grau_depen.append(dado3.loc['Grau de dependencia'])
+    grau_depen.append(dado4.loc['Grau de dependencia'])
+    grau_depen.append(dado5.loc['Grau de dependencia'])
+
+    gpd = 0
+    for g in grau_depen:
+        if pd.isnull(g):
+            pass
+        else:
+            gpd += g
+
+    gpd = gpd/5
+    print gpd
+
+    #print grau_depen.mean()
+
+    #print grau_depen.mean(dado1.loc['Grau de dependencia'] + dado2.loc['Grau de dependencia'] + dado3.loc['Grau de dependencia'] + dado4.loc['Grau de dependencia'] + dado5.loc['Grau de dependencia'])
+    #funcao = dado1.loc['Prioridade'] + dado2.loc['Prioridade'] + dado3.loc['Prioridade'] + dado4.loc['Prioridade'] + dado5.loc['Prioridade']
+    #print funcao
+
+    #print dado1
     return sum(individual),
 
 #----------
