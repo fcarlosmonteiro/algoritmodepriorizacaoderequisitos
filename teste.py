@@ -80,15 +80,12 @@ def evalOneMax(individual):
             gpd += g
 
     gpd = gpd/5
-    print gpd
+    gpd = gpd * 0.1 # 0.1, 0.2, 0.3
 
-    #print grau_depen.mean()
+    funcao = dado1.loc['Prioridade'] + dado2.loc['Prioridade'] + dado3.loc['Prioridade'] + dado4.loc['Prioridade'] + dado5.loc['Prioridade']
+    #funcao = funcao - gpd
+    print funcao
 
-    #print grau_depen.mean(dado1.loc['Grau de dependencia'] + dado2.loc['Grau de dependencia'] + dado3.loc['Grau de dependencia'] + dado4.loc['Grau de dependencia'] + dado5.loc['Grau de dependencia'])
-    #funcao = dado1.loc['Prioridade'] + dado2.loc['Prioridade'] + dado3.loc['Prioridade'] + dado4.loc['Prioridade'] + dado5.loc['Prioridade']
-    #print funcao
-
-    #print dado1
     return sum(individual),
 
 #----------
