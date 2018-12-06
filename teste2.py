@@ -105,7 +105,7 @@ def evalOneMax(individual):
 toolbox.register("evaluate", evalOneMax)
 
 # register the crossover operator
-toolbox.register("mate", tools.cxTwoPoint)
+toolbox.register("mate", tools.cxUniformPartialyMatched)
 
 # register a mutation operator with a probability to
 # flip each attribute/gene of 0.05
@@ -165,45 +165,6 @@ def main():
             if random.random() < CXPB:
                 toolbox.mate(child1, child2)
 
-                for i, e in enumerate(child1):
-                    for j, f in enumerate(child1):
-                        if i is j:
-                            pass
-                        elif e == f:
-                            while e == f:
-                                tmp = 0
-                                f = randint(1,20)
-                                for g in child1:
-                                    if f == g:
-                                        tmp = 1
-                                if tmp == 1:
-                                    f = e
-                                    
-                            #print "Child 1: antes ",child1
-                            child1[i] = f
-                            #print "Child 1: depois ",child1                        
-
-                for i, e in enumerate(child2):
-                    for j, f in enumerate(child2):
-                        if i is j:
-                            pass
-                        elif e == f:
-                            while e == f:
-                                tmp = 0
-                                f = randint(1,20)
-                                for g in child2:
-                                    if f == g:
-                                        tmp = 1
-                                if tmp == 1:
-                                    f = e
-                        
-                            #print "Child 2: antes ",child2
-                            child2[i] = f
-                            #print "Child 2: depois ",child2
-
-            #print "Filho 1: ",child1
-            #print "Filho 2: ",child2
-
             # fitness values of the children
             # must be recalculated later
             del child1.fitness.values
@@ -213,8 +174,9 @@ def main():
 
             # mutate an individual with probability MUTPB
             if random.random() < MUTPB:
-                toolbox.mutate(mutant)
-                del mutant.fitness.values
+                #toolbox.mutate(mutant)
+                #del mutant.fitness.values
+                pass
     
         # Evaluate the individuals with an invalid fitness
         invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
