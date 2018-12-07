@@ -42,7 +42,7 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 toolbox = base.Toolbox()
 
 def getId():
-    v = randint(1,20)
+    v = randint(1,100)
     return v
 
 # Attribute generator 
@@ -51,7 +51,7 @@ def getId():
 #                      from the range [0,1] (i.e. 0 or 1 with equal
 #                      probability)
 
-gen_idx = partial(sample, range(20), 5)
+gen_idx = partial(sample, range(100), 5)
 
 toolbox.register("inputs", gen_idx)
 
@@ -90,7 +90,7 @@ def evalOneMax(individual):
             gpd += g
 
     gpd = gpd/5
-    gpd = gpd * 0.1 # 0.1, 0.2, 0.3
+    gpd = gpd * 0.2 # 0.1, 0.2, 0.3
 
     funcao = dado1.loc['Prioridade'] + dado2.loc['Prioridade'] + dado3.loc['Prioridade'] + dado4.loc['Prioridade'] + dado5.loc['Prioridade']
     funcao = funcao - gpd
@@ -109,7 +109,7 @@ toolbox.register("mate", tools.cxTwoPoint)
 
 # register a mutation operator with a probability to
 # flip each attribute/gene of 0.05
-toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
+toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
 
 # operator for selecting individuals for breeding the next
 # generation: each individual of the current generation
@@ -124,13 +124,13 @@ def main():
 
     # create an initial population of 300 individuals (where
     # each individual is a list of integers)
-    pop = toolbox.population(n=10)
+    pop = toolbox.population(n=50)
 
     # CXPB  is the probability with which two individuals
     #       are crossed
     #
     # MUTPB is the probability for mutating an individual
-    CXPB, MUTPB = 0.5, 0.2
+    CXPB, MUTPB = 0.7, 0.5
     
     print("Start of evolution")
     
@@ -148,7 +148,7 @@ def main():
     g = 0
     
     # Begin the evolution
-    while max(fits) < 25 and g < 100:
+    while max(fits) < 25 and g < 500:
         # A new generation
         g = g + 1
         print("-- Generation %i --" % g)
@@ -173,8 +173,8 @@ def main():
                             while e == f:
                                 tmp = 0
                                 f = randint(1,20)
-                                for g in child1:
-                                    if f == g:
+                                for g2 in child1:
+                                    if f == g2:
                                         tmp = 1
                                 if tmp == 1:
                                     f = e
@@ -191,8 +191,8 @@ def main():
                             while e == f:
                                 tmp = 0
                                 f = randint(1,20)
-                                for g in child2:
-                                    if f == g:
+                                for g3 in child2:
+                                    if f == g3:
                                         tmp = 1
                                 if tmp == 1:
                                     f = e
