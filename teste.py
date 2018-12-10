@@ -15,11 +15,6 @@ bd = pd.read_csv('base.csv')
 import matplotlib.pyplot as plt
 import numpy as np
 
-bd1 = bd.iloc[0:5,0:4]
-bd2 = bd.iloc[5:10,0:4]
-bd3 = bd.iloc[10:15,0:4]
-bd4 = bd.iloc[15:20,0:4]
-
 xglobal = []
 yglobal = []
 maxGlobal = 0
@@ -59,7 +54,7 @@ def validaFilho(vetor):
                 elif e == f:
                     while e == f:
                         tmp = 0
-                        f = randint(1,20)
+                        f = randint(0,qtderequisitos-1)
                         for g2 in vetor:
                             if f == g2:
                                 tmp = 1
@@ -228,9 +223,7 @@ def main():
 
         xglobal.append(max(fits))
         yglobal.append(g)
-    
-    print("-- End of (successful) evolution --")
-    
+
     best_ind = tools.selBest(pop, 1)[0]
 
     # Geracao de grafico final
@@ -239,12 +232,13 @@ def main():
     style = dict(size=10, color='gray')
     plt.scatter(xglobal, yglobal, color='green')
     txtTemp = '{} individuos\nMelhor solucao: {}\nGeracao {}\n{}'.format(populacao, best_ind.fitness.values[0], gglobal, best_ind)
-    ax.annotate(txtTemp, xy=(best_ind.fitness.values[0], gglobal), xytext=(best_ind.fitness.values[0]-3, gglobal+200),arrowprops=dict(facecolor='black', shrink=0.05))
+    ax.annotate(txtTemp, xy=(best_ind.fitness.values[0], gglobal), xytext=(best_ind.fitness.values[0]-4, gglobal-4),arrowprops=dict(facecolor='black', shrink=0.05))
     plt.xlabel('Funcao')
     plt.ylabel('Geracao')
     plt.show()
 
-    print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
+    print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values)) 
+    print("-- End of (successful) evolution --")
     
 if __name__ == "__main__":
     main()
