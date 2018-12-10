@@ -1,22 +1,3 @@
-#    This file is part of DEAP.
-#
-#    DEAP is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Lesser General Public License as
-#    published by the Free Software Foundation, either version 3 of
-#    the License, or (at your option) any later version.
-#
-#    DEAP is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#    GNU Lesser General Public License for more details.
-#
-#    You should have received a copy of the GNU Lesser General Public
-#    License along with DEAP. If not, see <http://www.gnu.org/licenses/>.
-
-
-#    example which maximizes the sum of a list of integers
-#    each of which can be 0 or 1
-
 import random
 
 from random import randint
@@ -68,10 +49,8 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
 
-def getId():
-    v = randint(1,100)
-    return v
-
+# Essa função tem como objetivo validar que os requisitos não
+# se repitam dentro do conjunto a ser priorizado
 def validaFilho(vetor):
     for i, e in enumerate(vetor):
         for j, f in enumerate(vetor):
@@ -239,6 +218,8 @@ def main():
         print("  Avg %s" % mean)
         print("  Std %s" % std)
 
+        # Responsável por capturar em que geração o melhor resultado
+        # foi encontrado para o dado ser utilizado no gráfico final.
         if max(fits) > maxGlobal:
             global maxGlobal
             global gglobal
@@ -249,10 +230,10 @@ def main():
         yglobal.append(g)
     
     print("-- End of (successful) evolution --")
-    print("Chupa essa mangaaaaaaaa!")
     
     best_ind = tools.selBest(pop, 1)[0]
 
+    # Geração de gráfico final
     fig, ax = plt.subplots()
     ax.plot(xglobal, yglobal, 'b--')
     style = dict(size=10, color='gray')
