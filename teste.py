@@ -48,6 +48,10 @@ gglobalTemp = 0
 
 ####### Variaveis Importantes #######
 
+# Numero de Requisitos a ser priorizados
+numrequisitos = 5
+# Quantidade de Requisitos presentes na base de dados
+qtderequisitos = 100
 # Populacao Total
 populacao = 50
 # Probabilidade De Um Individuo Sofrer Mutacao
@@ -91,7 +95,7 @@ def validaFilho(vetor):
 #                      from the range [0,1] (i.e. 0 or 1 with equal
 #                      probability)
 
-gen_idx = partial(sample, range(100), 5)
+gen_idx = partial(sample, range(qtderequisitos), numrequisitos)
 
 toolbox.register("inputs", gen_idx)
 
@@ -107,20 +111,11 @@ toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 # the goal ('fitness') function to be maximized
 def evalOneMax(individual):
 
-    #print individual
-
-    dado1 = bd.iloc[individual[0],0:4]
-    dado2 = bd.iloc[individual[1],0:4]
-    dado3 = bd.iloc[individual[2],0:4]
-    dado4 = bd.iloc[individual[3],0:4]
-    dado5 = bd.iloc[individual[4],0:4]
-
+    dados = []
     grau_depen = []
-    grau_depen.append(dado1.loc['Grau de dependencia'])
-    grau_depen.append(dado2.loc['Grau de dependencia'])
-    grau_depen.append(dado3.loc['Grau de dependencia'])
-    grau_depen.append(dado4.loc['Grau de dependencia'])
-    grau_depen.append(dado5.loc['Grau de dependencia'])
+    for i in range(5):
+        dados.append(bd.iloc[individual[i],0:4])
+        grau_depen.append(dados[i].loc['Grau de dependencia'])
 
     gpd = 0
     for g in grau_depen:
@@ -128,13 +123,12 @@ def evalOneMax(individual):
             pass
         else:
             gpd += g
+    gpd = (gpd/5) * 0.2 # 0.1, 0.2, 0.3
 
-    gpd = gpd/5
-    gpd = gpd * 0.2 # 0.1, 0.2, 0.3
-
-    funcao = dado1.loc['Prioridade'] + dado2.loc['Prioridade'] + dado3.loc['Prioridade'] + dado4.loc['Prioridade'] + dado5.loc['Prioridade']
-    funcao = funcao - gpd
-    #print funcao
+    funcao = 0
+    for i in range(5):
+        funcao += dados[i].loc['Prioridade']
+    funcao -= gpd
 
     return funcao,
 
