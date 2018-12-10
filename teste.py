@@ -49,7 +49,7 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
 
-# Essa função tem como objetivo validar que os requisitos não
+# Essa funcao tem como objetivo validar que os requisitos nao
 # se repitam dentro do conjunto a ser priorizado
 def validaFilho(vetor):
     for i, e in enumerate(vetor):
@@ -218,8 +218,8 @@ def main():
         print("  Avg %s" % mean)
         print("  Std %s" % std)
 
-        # Responsável por capturar em que geração o melhor resultado
-        # foi encontrado para o dado ser utilizado no gráfico final.
+        # Responsavel por capturar em que geracao o melhor resultado
+        # foi encontrado para o dado ser utilizado no grafico final.
         if max(fits) > maxGlobal:
             global maxGlobal
             global gglobal
@@ -233,7 +233,7 @@ def main():
     
     best_ind = tools.selBest(pop, 1)[0]
 
-    # Geração de gráfico final
+    # Geracao de grafico final
     fig, ax = plt.subplots()
     ax.plot(xglobal, yglobal, 'b--')
     style = dict(size=10, color='gray')
