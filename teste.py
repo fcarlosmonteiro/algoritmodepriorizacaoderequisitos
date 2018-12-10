@@ -83,7 +83,6 @@ def validaFilho(vetor):
                             if tmp == 1:
                                 f = e
                     vetor[i] = f
-    print vetor
     return vetor
 
 # Attribute generator 
