@@ -13,6 +13,7 @@ import pandas as pd
 bd = pd.read_csv('base.csv')
 
 import matplotlib.pyplot as plt
+
 import numpy as np
 
 xglobal = []
@@ -29,13 +30,13 @@ numrequisitos = 5
 # Quantidade de Requisitos presentes na base de dados
 qtderequisitos = 100
 # Populacao Total
-populacao = 30
+populacao = 50
 # Probabilidade De Um Individuo Sofrer Mutacao
-probmut = 0.5
+probmut = 0.1
 # Probabilidade De Dois Individuos Cruzarem
-probcross = 0.7
-# Quantidade de Geracoes
-numgeracoes = 500
+probcross = 0.3
+# Quantidade maxima de Geracoes
+numgeracoes = 300
 # Melhor resultado possivel da funcao de avaliacao
 resulfunc = numrequisitos * 5
 
@@ -99,7 +100,7 @@ def evalOneMax(individual):
             pass
         else:
             gpd += g
-    gpd = (gpd/numrequisitos) * 0.2 # 0.1, 0.2, 0.3
+    gpd = (gpd/numrequisitos)
 
     funcao = 0
     for i in range(numrequisitos):
@@ -228,18 +229,23 @@ def main():
 
     best_ind = tools.selBest(pop, 1)[0]
 
+    resultFinal = []
+    for element in best_ind:
+        resultFinal.append(element+1)
+
     # Geracao de grafico final
     fig, ax = plt.subplots()
     ax.plot(xglobal, yglobal, 'b--')
     style = dict(size=10, color='gray')
     plt.scatter(xglobal, yglobal, color='green')
-    txtTemp = '{} individuos\nMelhor solucao: {}\nGeracao {}\n{}'.format(populacao, best_ind.fitness.values[0], gglobal, best_ind)
+    txtTemp = '{} individuos\nMelhor solucao: {}\nGeracao {}\n{}'.format(populacao, best_ind.fitness.values[0], gglobal, resultFinal)
     ax.annotate(txtTemp, xy=(best_ind.fitness.values[0], gglobal), xytext=(best_ind.fitness.values[0]-4, gglobal-4),arrowprops=dict(facecolor='black', shrink=0.05))
     plt.xlabel('Funcao')
     plt.ylabel('Geracao')
     plt.show()
 
-    print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values)) 
+    print("Best individual is %s, %s" % (resultFinal, best_ind.fitness.values))
+
     print("-- End of (successful) evolution --")
     
 if __name__ == "__main__":
