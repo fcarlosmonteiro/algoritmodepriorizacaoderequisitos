@@ -29,13 +29,15 @@ numrequisitos = 5
 # Quantidade de Requisitos presentes na base de dados
 qtderequisitos = 100
 # Populacao Total
-populacao = 50
+populacao = 30
 # Probabilidade De Um Individuo Sofrer Mutacao
 probmut = 0.5
 # Probabilidade De Dois Individuos Cruzarem
 probcross = 0.7
 # Quantidade de Geracoes
 numgeracoes = 500
+# Melhor resultado possivel da funcao de avaliacao
+resulfunc = numrequisitos * 5
 
 #####################################
 
@@ -87,7 +89,7 @@ def evalOneMax(individual):
 
     dados = []
     grau_depen = []
-    for i in range(5):
+    for i in range(numrequisitos):
         dados.append(bd.iloc[individual[i],0:4])
         grau_depen.append(dados[i].loc['Grau de dependencia'])
 
@@ -97,10 +99,10 @@ def evalOneMax(individual):
             pass
         else:
             gpd += g
-    gpd = (gpd/5) * 0.2 # 0.1, 0.2, 0.3
+    gpd = (gpd/numrequisitos) * 0.2 # 0.1, 0.2, 0.3
 
     funcao = 0
-    for i in range(5):
+    for i in range(numrequisitos):
         funcao += dados[i].loc['Prioridade']
     funcao -= gpd
 
@@ -157,7 +159,7 @@ def main():
     g = 0
     
     # Begin the evolution
-    while max(fits) < 25 and g < numgeracoes:
+    while max(fits) < resulfunc and g < numgeracoes:
         # A new generation
         g = g + 1
         print("-- Generation %i --" % g)
