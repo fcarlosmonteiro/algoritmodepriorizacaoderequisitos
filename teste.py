@@ -41,6 +41,23 @@ bd4 = bd.iloc[15:20,0:4]
 
 xglobal = []
 yglobal = []
+maxGlobal = 0
+geracaoGlobal = 0
+gglobal = 0
+gglobalTemp = 0
+
+####### Variaveis Importantes #######
+
+# Populacao Total
+populacao = 50
+# Probabilidade De Um Individuo Sofrer Mutacao
+probmut = 0.5
+# Probabilidade De Dois Individuos Cruzarem
+probcross = 0.7
+# Quantidade de Geracoes
+numgeracoes = 500
+
+#####################################
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
@@ -126,17 +143,18 @@ toolbox.register("select", tools.selTournament, tournsize=3)
 #----------
 
 def main():
+
     random.seed(64)
 
     # create an initial population of 300 individuals (where
     # each individual is a list of integers)
-    pop = toolbox.population(n=50)
+    pop = toolbox.population(n=populacao)
 
     # CXPB  is the probability with which two individuals
     #       are crossed
     #
     # MUTPB is the probability for mutating an individual
-    CXPB, MUTPB = 0.7, 0.5
+    CXPB, MUTPB = probcross, probmut
     
     print("Start of evolution")
     
@@ -154,10 +172,11 @@ def main():
     g = 0
     
     # Begin the evolution
-    while max(fits) < 25 and g < 30:
+    while max(fits) < 25 and g < numgeracoes:
         # A new generation
         g = g + 1
         print("-- Generation %i --" % g)
+        gglobalTemp = g
         
         # Select the next generation individuals
         offspring = toolbox.select(pop, len(pop))
@@ -246,20 +265,31 @@ def main():
         print("  Avg %s" % mean)
         print("  Std %s" % std)
 
+        if max(fits) > maxGlobal:
+            global maxGlobal
+            global gglobal
+            maxGlobal = max(fits)
+            gglobal = gglobalTemp
+
         xglobal.append(max(fits))
         yglobal.append(g)
     
     print("-- End of (successful) evolution --")
     print("Chupa essa mangaaaaaaaa!")
+    
+    best_ind = tools.selBest(pop, 1)[0]
 
     fig, ax = plt.subplots()
     ax.plot(xglobal, yglobal, 'b--')
+    style = dict(size=10, color='gray')
+    plt.scatter(xglobal, yglobal, color='green')
+    txtTemp = '{} individuos\nMelhor solucao: {}\nGeracao {}\n{}'.format(populacao, best_ind.fitness.values[0], gglobal, best_ind)
+    ax.annotate(txtTemp, xy=(best_ind.fitness.values[0], gglobal), xytext=(21, 200),arrowprops=dict(facecolor='black', shrink=0.05))
     plt.xlabel('Funcao')
     plt.ylabel('Geracao')
     plt.show()
-    
-    best_ind = tools.selBest(pop, 1)[0]
-    print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
 
+    print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
+    
 if __name__ == "__main__":
     main()
