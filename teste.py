@@ -24,17 +24,23 @@ from deap import base
 from deap import creator
 from deap import tools
 
+
 from random import sample
 from functools import partial
 
 import pandas as pd
 bd = pd.read_csv('base.csv')
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 bd1 = bd.iloc[0:5,0:4]
 bd2 = bd.iloc[5:10,0:4]
 bd3 = bd.iloc[10:15,0:4]
 bd4 = bd.iloc[15:20,0:4]
 
+xglobal = []
+yglobal = []
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
@@ -148,7 +154,7 @@ def main():
     g = 0
     
     # Begin the evolution
-    while max(fits) < 25 and g < 500:
+    while max(fits) < 25 and g < 30:
         # A new generation
         g = g + 1
         print("-- Generation %i --" % g)
@@ -239,8 +245,18 @@ def main():
         print("  Max %s" % max(fits))
         print("  Avg %s" % mean)
         print("  Std %s" % std)
+
+        xglobal.append(max(fits))
+        yglobal.append(g)
     
     print("-- End of (successful) evolution --")
+    print("Chupa essa mangaaaaaaaa!")
+
+    fig, ax = plt.subplots()
+    ax.plot(xglobal, yglobal, 'b--')
+    plt.xlabel('Funcao')
+    plt.ylabel('Geracao')
+    plt.show()
     
     best_ind = tools.selBest(pop, 1)[0]
     print("Best individual is %s, %s" % (best_ind, best_ind.fitness.values))
